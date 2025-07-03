@@ -3,21 +3,28 @@
 
 #include <QMainWindow>
 
-QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
 }
-QT_END_NAMESPACE
+
+class GameScene;
+class QGraphicsView;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+private slots:
+    void onJugarButtonClicked();  // Slot conectado al botón
 
 private:
     Ui::MainWindow *ui;
+    GameScene *gameScene;
+    QGraphicsView *gameView;
 };
+
 #endif // MAINWINDOW_H
