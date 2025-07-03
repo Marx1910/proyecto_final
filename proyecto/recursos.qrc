@@ -2,5 +2,6 @@
     <qresource prefix="/new/prefix1">
         <file>recursos/fondo.png</file>
         <file>recursos/logo.png</file>
+        <file>recursos/fn1.png</file>
     </qresource>
 </RCC>

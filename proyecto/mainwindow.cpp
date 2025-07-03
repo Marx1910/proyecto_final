@@ -1,43 +1,52 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "gamescene.h"
-
+#include "nivel1.h"  // Incluye tu Nivel1
 #include <QGraphicsView>
-#include <QPixmap>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow),
-    gameScene(nullptr),
-    gameView(nullptr)
+    menuScene(new MenuScene(this)),
+    nivelActual(nullptr),
+    vistaActual(nullptr)
 {
     ui->setupUi(this);
-    QPixmap fondo(":/new/prefix1/recursos/fondo.png"); //definir ruta de archivos para cargar el fondo.
-    ui->backgroundLabel->setPixmap(fondo.scaled(size(), Qt::KeepAspectRatioByExpanding));
 
-    QPixmap logo (":/new/prefix1/recursos/logo.png"); //definir ruta para el logo :)
-    ui->logoLabel->setPixmap(logo.scaled(300, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    ui->logoLabel->setAlignment(Qt::AlignCenter);
+    // Configurar menú inicial
+    vistaActual = new QGraphicsView(menuScene);
+    vistaActual->setFixedSize(800, 600);
+    vistaActual->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    vistaActual->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setCentralWidget(vistaActual);
 
-    connect(ui->jugarButton, &QPushButton::clicked, this, &MainWindow::onJugarButtonClicked);
+    // Conectar señal del menú al slot
+    connect(menuScene, &MenuScene::jugarClicked, this, &MainWindow::cambiarANivel1);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    // No es necesario eliminar menuScene/nivelActual/vistaActual
+    // porque son hijos de MainWindow (se destruyen automáticamente)
 }
 
-void MainWindow::onJugarButtonClicked()
+void MainWindow::cambiarANivel1()
 {
-    gameScene = new GameScene(this);
-    gameView = new QGraphicsView(gameScene);
-    gameView->setFixedSize(800, 600);
-    gameView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    gameView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    gameView->setFrameStyle(QFrame::NoFrame);
+    // Limpiar vista anterior (menú)
+    if (vistaActual) {
+        vistaActual->deleteLater();
+    }
 
-    setCentralWidget(gameView);
+    // Crear nivel 1
+    nivelActual = new Nivel1(this);  // Nivel1 hereda de NivelBase
+    vistaActual = new QGraphicsView(nivelActual);
 
-    gameScene->setSceneRect(0, 0, 800, 600);
-    gameScene->resizeBackground();
+    // Configurar vista del nivel
+    vistaActual->setFixedSize(800, 600);
+    vistaActual->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    vistaActual->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    vistaActual->setFrameStyle(QFrame::NoFrame);
+
+    setCentralWidget(vistaActual);
+    nivelActual->iniciarNivel();  // Inicia la lógica del nivel
 }
