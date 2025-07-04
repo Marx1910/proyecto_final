@@ -2,13 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "menu.h"
+#include "nivelbase.h"
 
 namespace Ui {
 class MainWindow;
 }
-
-class GameScene;
-class QGraphicsView;
 
 class MainWindow : public QMainWindow
 {
@@ -19,12 +18,13 @@ public:
     ~MainWindow();
 
 private slots:
-    void onJugarButtonClicked();  // Slot conectado al botón
+    void cambiarANivel1();  // Slot para transición al nivel 1
 
 private:
     Ui::MainWindow *ui;
-    GameScene *gameScene;
-    QGraphicsView *gameView;
+    MenuScene *menuScene;   // Escena del menú principal
+    NivelBase *nivelActual; // Puntero al nivel actual (Nivel1, Nivel2...)
+    QGraphicsView *vistaActual; // Vista activa (menú o nivel)
 };
 
 #endif // MAINWINDOW_H
