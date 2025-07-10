@@ -3,5 +3,8 @@
         <file>recursos/fondo.png</file>
         <file>recursos/logo.png</file>
         <file>recursos/fn1.png</file>
+        <file>recursos/goku.png</file>
+        <file>recursos/nave.png</file>
+        <file>recursos/perro.png</file>
     </qresource>
 </RCC>
