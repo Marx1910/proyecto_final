@@ -36,7 +36,7 @@ void Personaje::aplicarGravedad()
 {
     if (!enSuelo) {
         velocidadY += gravedad;
-        velocidadY = qMin(velocidadY, 15.0); // Limitar velocidad máxima de caída
+        velocidadY = qMin(velocidadY, 15.0);
     }
 }
 
@@ -44,7 +44,7 @@ void Personaje::verificarColisionSuelo()
 {
     if (!scene()) return;
 
-    qreal posicionSuelo = scene()->sceneRect().bottom() - 107; // Usando tu ajuste
+    qreal posicionSuelo = scene()->sceneRect().bottom() - 107;
     qreal personajeBottom = y() + boundingRect().height();
 
     if (personajeBottom >= posicionSuelo) {

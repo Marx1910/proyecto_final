@@ -16,6 +16,7 @@ SOURCES += \
     menu.cpp \
     nivel1.cpp \
     nivelbase.cpp \
+    obstaculo.cpp \
     personaje.cpp
 
 HEADERS += \
@@ -25,6 +26,7 @@ HEADERS += \
     menu.h \
     nivel1.h \
     nivelbase.h \
+    obstaculo.h \
     personaje.h
 
 FORMS += \

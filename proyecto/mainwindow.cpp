@@ -3,6 +3,7 @@
 #include "nivel1.h"
 #include <QGraphicsView>
 #include <QDebug>
+#include "goku.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -13,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Configurar vista del menú
+
     vistaActual = new QGraphicsView(menuScene);
     vistaActual->setFixedSize(800, 600);
     vistaActual->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -24,14 +25,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     setCentralWidget(vistaActual);
 
-    // Conectar botón del menú al cambio de nivel
+
     connect(menuScene, &MenuScene::jugarClicked, this, &MainWindow::cambiarANivel1);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    // menuScene, nivelActual y vistaActual se destruyen automáticamente como hijos
+
 }
 
 void MainWindow::cambiarANivel1()
@@ -47,6 +48,8 @@ void MainWindow::cambiarANivel1()
     vistaActual->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     vistaActual->setFrameStyle(QFrame::NoFrame);
     vistaActual->setFocusPolicy(Qt::StrongFocus);
+    vistaActual->setFocusPolicy(Qt::StrongFocus);
+    vistaActual->setFocus();
 
     setCentralWidget(vistaActual);
 

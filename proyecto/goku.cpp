@@ -3,28 +3,29 @@
 #include <QKeyEvent>
 #include <QDebug>
 
-Goku::Goku(QGraphicsItem *parent)
+Goku::Goku(QGraphicsItem *parent, QObject *sceneParent)
     : Personaje(parent), animador(nullptr)
 {
     cargarSprites();
+    animador = new AnimacionSprite(this, spriteSheet, ANCHO_FRAME, ALTO_FRAME, sceneParent);
 
     animador = new AnimacionSprite(this, spriteSheet, ANCHO_FRAME, ALTO_FRAME, this);
     animador->configurarSecuencia(FILA_CORRER, 0, 6, 30);
     animador->reproducir();
 
     setFlag(QGraphicsItem::ItemIsFocusable);
-    // Eliminado setFocus() de aquí
+
 }
 
-// En goku.cpp
+
 void Goku::actualizar()
 {
-    // Aplicar física básica
+
     aplicarGravedad();
     setY(y() + velocidadY);
     verificarColisionSuelo();
 
-    // Transición de estados
+
     if (velocidadY > 0 && estado == Saltando) {
         estado = Cayendo;
     }
@@ -38,7 +39,7 @@ void Goku::actualizar()
 
 Goku::~Goku()
 {
-    // El animador se elimina automáticamente por el parent QObject
+
 }
 
 void Goku::cargarSprites()
@@ -64,24 +65,27 @@ void Goku::saltar()
     }
 }
 
-void Goku::agacharse()
-{
+void Goku::agacharse() {
     if (enSuelo && estado != Agachado) {
         estado = Agachado;
         agachado = true;
+
+
+        setScale(0.7);
 
         animador->configurarSecuencia(FILA_AGACHADO, 0, 1, 15);
         animador->reproducir();
     }
 }
-
-void Goku::levantarse()
-{
+void Goku::levantarse() {
     if (agachado) {
         agachado = false;
         estado = Corriendo;
 
-        animador->configurarSecuencia(FILA_CORRER, 0, 7, 10);
+
+        setScale(1.0);
+
+        animador->configurarSecuencia(FILA_CORRER, 0, 7, 15);
         animador->reproducir();
     }
 }
@@ -103,7 +107,7 @@ void Personaje::actualizar()
         enSuelo = true;
     }
 
-    setY(testY); // Actualización directa
+    setY(testY);
 
     qDebug() << "Pos Y:" << y() << "TestY:" << testY;
 }
@@ -113,7 +117,7 @@ void Goku::keyPressEvent(QKeyEvent *event)
     switch (event->key()) {
     case Qt::Key_Space:
     case Qt::Key_W:
-        qDebug() << "Tecla de salto presionada"; // Debug importante
+        qDebug() << "Tecla de salto presionada";
         saltar();
         break;
     case Qt::Key_S:
@@ -131,4 +135,26 @@ void Goku::keyReleaseEvent(QKeyEvent *event)
     } else {
         QGraphicsItem::keyReleaseEvent(event);
     }
+}
+
+
+void Goku::perderVida(int cantidad) {
+    vida -= cantidad;
+
+    qDebug() << "Goku perdió" << cantidad << "vida(s). Vidas restantes:" << vida;
+
+    if (vida <= 0) {
+        qDebug() << "¡Goku fue derrotado!";
+        emit gokuDerrotado();
+    }
+
+
+    if (animador) {
+        animador->configurarSecuencia(FILA_DANO, 0, 2, 15);
+        animador->reproducir();
+    }
+
+    // Efecto de parpadeo
+    setOpacity(0.5);
+    QTimer::singleShot(100, this, [this]() { setOpacity(1.0); });
 }

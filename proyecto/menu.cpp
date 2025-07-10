@@ -2,6 +2,7 @@
 #include <QPushButton>
 #include <QGraphicsProxyWidget>
 #include <QDebug>
+#include <QRandomGenerator>
 
 MenuScene::MenuScene(QObject *parent)
     : QGraphicsScene(parent), fondoItem(nullptr), botonProxy(nullptr) {
@@ -24,17 +25,17 @@ void MenuScene::cargarInterfaz() {
     QPixmap logo(":/new/prefix1/recursos/logo.png");
     if (!logo.isNull()) {
         QGraphicsPixmapItem *logoItem = new QGraphicsPixmapItem(logo.scaled(300, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-        logoItem->setPos(255, 90); // (800-300)/2 = 250 para centrar horizontalmente
+        logoItem->setPos(255, 90);
         addItem(logoItem);
     } else {
         qDebug() << "Logo no encontrado";
     }
 
-    // 3. Botón "Jugar"
+
     QPushButton *jugarButton = new QPushButton("Jugar");
     jugarButton->setStyleSheet("QPushButton { font-size: 16px; padding: 10px; }");
     botonProxy = addWidget(jugarButton);
-    botonProxy->setPos(360, 300); // Posición debajo del logo
+    botonProxy->setPos(360, 300);
 
     connect(jugarButton, &QPushButton::clicked, this, &MenuScene::onJugarButtonClicked);
 }
