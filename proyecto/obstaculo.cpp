@@ -30,7 +30,7 @@ void Obstaculo::configurarAnimacion() {
         filaAnimacion = 0;  // Fila en el spritesheet
         frameInicio = 0;    // Frame inicial
         frameFin = 6;      // 4 frames de animación
-        fps = 30;          // Velocidad animación
+        fps = 15;          // Velocidad animación
         break;
 
     case PERRO:

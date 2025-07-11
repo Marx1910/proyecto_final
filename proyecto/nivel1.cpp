@@ -67,6 +67,7 @@ void Nivel1::configurarEscena() {
     addItem(goku);
     goku->setFocus();
     goku->setFlag(QGraphicsItem::ItemIsFocusable);
+    goku->agregarVidasAEscena(this);
 
 
     textoPuntaje = new QGraphicsTextItem();
@@ -137,7 +138,7 @@ void Nivel1::generarObstaculo() {
 
     qreal yPos = (tipo == Obstaculo::NAVE)
                      ? sceneRect().height() * 0.62
-                     : sceneRect().height() - 175;
+                     : sceneRect().height() - 170;
 
     obstaculo->setPos(sceneRect().width(), yPos);
     addItem(obstaculo);

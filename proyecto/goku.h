@@ -4,6 +4,8 @@
 #include "personaje.h"
 #include "animaciones.h"
 #include <QKeyEvent>
+#include <QGraphicsOpacityEffect>
+#include <QPropertyAnimation>
 
 class Goku : public Personaje
 {
@@ -18,6 +20,8 @@ public:
     void levantarse() override;
     void actualizar() override;
     void perderVida(int cantidad = 1);
+    void actualizarVidasUI();
+    void agregarVidasAEscena(QGraphicsScene* escena);
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
@@ -43,6 +47,11 @@ private:
     static const int FILA_SALTAR = 3;
     static const int FILA_AGACHADO = 4;
     static const int FILA_DANO = 4;
+
+    QPixmap vidaSprite;
+    static const int VIDA_FRAME_W = 23;
+    static const int VIDA_FRAME_H = 24;
+    QGraphicsPixmapItem* vidaUI[3];
 };
 
 #endif // GOKU_H

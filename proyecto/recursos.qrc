@@ -6,5 +6,6 @@
         <file>recursos/goku.png</file>
         <file>recursos/nave.png</file>
         <file>recursos/perro.png</file>
+        <file>recursos/objetos.png</file>
     </qresource>
 </RCC>

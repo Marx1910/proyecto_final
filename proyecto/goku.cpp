@@ -2,19 +2,51 @@
 #include <QGraphicsScene>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QGraphicsOpacityEffect>
 
 Goku::Goku(QGraphicsItem *parent, QObject *sceneParent)
     : Personaje(parent), animador(nullptr)
 {
+    // 1. Cargar spritesheet principal
     cargarSprites();
-    animador = new AnimacionSprite(this, spriteSheet, ANCHO_FRAME, ALTO_FRAME, sceneParent);
 
-    animador = new AnimacionSprite(this, spriteSheet, ANCHO_FRAME, ALTO_FRAME, this);
-    animador->configurarSecuencia(FILA_CORRER, 0, 6, 30);
+    // 2. Configurar animación (usando sceneParent como parent del animador)
+    animador = new AnimacionSprite(this, spriteSheet, ANCHO_FRAME, ALTO_FRAME, sceneParent);
+    animador->configurarSecuencia(FILA_CORRER, 0, 7, 30);
     animador->reproducir();
 
-    setFlag(QGraphicsItem::ItemIsFocusable);
+    // 3. Cargar spritesheet de vidas
+    vidaSprite = QPixmap(":/new/prefix1/recursos/objetos.png");
+    if(vidaSprite.isNull()) {
+        qDebug() << "Error: No se cargó el spritesheet de vidas";
 
+        vidaSprite = QPixmap(90, 30);
+        vidaSprite.fill(Qt::red);
+    }
+
+    // 4. Configurar indicadores de vida
+    for (int i = 0; i < 3; ++i) {
+        vidaUI[i] = new QGraphicsPixmapItem(nullptr);
+
+        // Frame inicial (vida llena) - columna i, fila 0
+        vidaUI[i]->setPixmap(vidaSprite.copy(
+            i * VIDA_FRAME_W, 0,
+            VIDA_FRAME_W,
+            VIDA_FRAME_H
+            ));
+
+        vidaUI[i]->setPos(20 + i * (VIDA_FRAME_W ), 20);
+        vidaUI[i]->setZValue(1000);
+
+        vidaUI[i]->setToolTip(QString("Vida %1").arg(i+1));
+    }
+
+    // 5. Configuración inicial
+    setFlag(QGraphicsItem::ItemIsFocusable);
+    setFocus();
+
+    qDebug() << "Goku inicializado. Spritesheet vidas cargado:"
+             << vidaSprite.isNull();
 }
 
 
@@ -138,8 +170,35 @@ void Goku::keyReleaseEvent(QKeyEvent *event)
 }
 
 
+
+
+void Goku::actualizarVidasUI() {
+    for (int i = 0; i < 3; ++i) {
+
+        if (!vidaUI[i]->graphicsEffect()) {
+            vidaUI[i]->setGraphicsEffect(new QGraphicsOpacityEffect(this));
+        }
+
+        QGraphicsOpacityEffect* effect = qobject_cast<QGraphicsOpacityEffect*>(vidaUI[i]->graphicsEffect());
+        if (effect) {
+            effect->setOpacity(i < vida ? 1.0 : 0.1);  // 0.3 para vidas perdidas
+        }
+
+        // Animación solo para la vida recién perdida
+        if (i == vida && vida < 3) {  // Si acaba de perder una vida
+            QPropertyAnimation* anim = new QPropertyAnimation(vidaUI[i]->graphicsEffect(), "opacity");
+            anim->setDuration(500);
+            anim->setStartValue(1.0);
+            anim->setEndValue(0.3);
+            anim->start(QAbstractAnimation::DeleteWhenStopped);
+        }
+    }
+}
+
+
 void Goku::perderVida(int cantidad) {
     vida -= cantidad;
+    actualizarVidasUI();
 
     qDebug() << "Goku perdió" << cantidad << "vida(s). Vidas restantes:" << vida;
 
@@ -157,4 +216,11 @@ void Goku::perderVida(int cantidad) {
     // Efecto de parpadeo
     setOpacity(0.5);
     QTimer::singleShot(100, this, [this]() { setOpacity(1.0); });
+}
+
+
+void Goku::agregarVidasAEscena(QGraphicsScene* escena) {
+    for (int i = 0; i < 3; ++i) {
+        escena->addItem(vidaUI[i]);
+    }
 }
