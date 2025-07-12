@@ -13,14 +13,14 @@ public:
     void cargarInterfaz();
 
 signals:
-    void jugarClicked(); // Señal cuando se presiona "Jugar"
+    void jugarClicked();
 
 private slots:
     void onJugarButtonClicked();
 
 private:
     QGraphicsPixmapItem *fondoItem;
-    QGraphicsProxyWidget *botonProxy; // Para añadir QPushButton a la escena
+    QGraphicsProxyWidget *botonProxy;
 };
 
 #endif // MENUSCENE_H
