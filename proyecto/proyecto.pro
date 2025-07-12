@@ -13,6 +13,7 @@ SOURCES += \
     goku.cpp \
     main.cpp \
     mainwindow.cpp \
+    mensajefinal.cpp \
     menu.cpp \
     nivel1.cpp \
     nivelbase.cpp \
@@ -23,6 +24,7 @@ HEADERS += \
     animaciones.h \
     goku.h \
     mainwindow.h \
+    mensajefinal.h \
     menu.h \
     nivel1.h \
     nivelbase.h \

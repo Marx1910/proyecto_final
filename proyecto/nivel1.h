@@ -6,6 +6,7 @@
 #include "obstaculo.h"
 #include <QTimer>
 #include <QGraphicsTextItem>
+#include <QGraphicsProxyWidget>
 
 class Nivel1 : public NivelBase
 {
@@ -13,40 +14,43 @@ class Nivel1 : public NivelBase
 
 public:
     explicit Nivel1(QObject *parent = nullptr);
-
-    // Métodos principales
     void iniciarNivel() override;
     void configurarEscena() override;
     void aumentarPuntaje(int puntos);
-
-    // Funciones de gestión de obstáculos
     void generarObstaculo();
     void verificarColisiones();
-
-    // Utilería
     void redimensionarFondo();
+
+signals:
+    void nivelCompletado();
+    void nivelFallido();
+
+private slots:
+    void reiniciarNivel();
 
 private:
     void iniciarAnimacionFondo();
+    void mostrarMensajeFinal(const QString& texto, const QColor& color, const QString& textoBoton);
+    void limpiarMensajeFinal();
 
     // Elementos del juego
-    Goku* goku;                  // Personaje principal
-    QGraphicsPixmapItem* fondoSecundario; // Para scroll infinito
-    QGraphicsTextItem* textoPuntaje;      // Marcador de puntos
+    Goku* goku;
+    QGraphicsPixmapItem* fondoSecundario;
+    QGraphicsTextItem* textoPuntaje;
+
+    // Mensaje final
+    QGraphicsTextItem* mensajeFinal;
+    QGraphicsProxyWidget* botonFinalProxy;
 
     // Temporizadores
-    QTimer* temporizadorScroll;      // Para animación de fondo
-    QTimer* temporizadorObstaculos;  // Para generación de obstáculos
-    QTimer* temporizadorColisiones;  // Para detección de colisiones
+    QTimer* temporizadorScroll;
+    QTimer* temporizadorObstaculos;
+    QTimer* temporizadorColisiones;
 
     // Variables de control
-    int velocidadScroll = 4;       // Velocidad base del fondo
-    int velocidadObstaculos = 7;   // Velocidad inicial de obstáculos
-    int puntaje = 0;               // Puntaje actual
-
-    // Constantes
-    static const int INTERVALO_OBSTACULOS = 2000; // 2 segundos
-    static const int INTERVALO_COLISIONES = 16;   // ≈60 FPS
+    int velocidadScroll;
+    int velocidadObstaculos;
+    int puntaje;
 };
 
 #endif // NIVEL1_H

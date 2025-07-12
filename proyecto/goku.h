@@ -22,6 +22,7 @@ public:
     void perderVida(int cantidad = 1);
     void actualizarVidasUI();
     void agregarVidasAEscena(QGraphicsScene* escena);
+    int vida = 3;
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
@@ -35,7 +36,7 @@ private:
 
     QPixmap spriteSheet;
     AnimacionSprite *animador;
-    int vida = 3;
+
 
 
     static const int ANCHO_FRAME = 35;

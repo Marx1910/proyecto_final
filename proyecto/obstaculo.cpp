@@ -25,11 +25,11 @@ void Obstaculo::configurarAnimacion() {
     switch(tipoObstaculo) {
     case NAVE:
         rutaSpritesheet = ":/new/prefix1/recursos/nave.png";
-        anchoFrame = 22;
-        altoFrame = 24;
+        anchoFrame = 21;
+        altoFrame = 23;
         filaAnimacion = 0;  // Fila en el spritesheet
         frameInicio = 0;    // Frame inicial
-        frameFin = 6;      // 4 frames de animación
+        frameFin = 3;      // 4 frames de animación
         fps = 15;          // Velocidad animación
         break;
 
