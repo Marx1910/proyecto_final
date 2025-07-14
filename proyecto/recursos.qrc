@@ -7,5 +7,9 @@
         <file>recursos/nave.png</file>
         <file>recursos/perro.png</file>
         <file>recursos/objetos.png</file>
+        <file>recursos/db.ico</file>
+        <file>recursos/fn2.png</file>
+        <file>recursos/robot.png</file>
+        <file>recursos/Kamehameha.png</file>
     </qresource>
 </RCC>

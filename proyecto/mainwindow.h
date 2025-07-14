@@ -19,6 +19,7 @@ public:
 
 private slots:
     void cambiarANivel1();  // Slot para transición al nivel 1
+    void cambiarANivel2();
 
 private:
     Ui::MainWindow *ui;
