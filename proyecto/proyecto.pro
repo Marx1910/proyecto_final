@@ -11,25 +11,33 @@ CONFIG += c++17
 SOURCES += \
     animaciones.cpp \
     goku.cpp \
+    kameha.cpp \
     main.cpp \
     mainwindow.cpp \
     mensajefinal.cpp \
     menu.cpp \
     nivel1.cpp \
+    nivel2.cpp \
     nivelbase.cpp \
     obstaculo.cpp \
-    personaje.cpp
+    personaje.cpp \
+    robot.cpp \
+    robotai.cpp
 
 HEADERS += \
     animaciones.h \
     goku.h \
+    kameha.h \
     mainwindow.h \
     mensajefinal.h \
     menu.h \
     nivel1.h \
+    nivel2.h \
     nivelbase.h \
     obstaculo.h \
-    personaje.h
+    personaje.h \
+    robot.h \
+    robotai.h
 
 FORMS += \
     mainwindow.ui

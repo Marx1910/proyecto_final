@@ -20,6 +20,7 @@ public:
     void generarObstaculo();
     void verificarColisiones();
     void redimensionarFondo();
+    void setGroundOffset(int off) { groundOffset = off; }
 
 signals:
     void nivelCompletado();
@@ -27,6 +28,9 @@ signals:
 
 private slots:
     void reiniciarNivel();
+
+protected:
+    int groundOffset = 107;
 
 private:
     void iniciarAnimacionFondo();

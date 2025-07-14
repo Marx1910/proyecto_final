@@ -208,7 +208,7 @@ void Nivel1::generarObstaculo() {
 
     connect(obstaculo, &Obstaculo::destroyed, this, [this, tipo]() {
         if (puntaje < 150) { // Solo aumentar puntaje si el juego no ha terminado
-            aumentarPuntaje((tipo == Obstaculo::NAVE) ? 2 : 1);
+            aumentarPuntaje((tipo == Obstaculo::NAVE) ? 1 : 1);
         }
     });
 }
@@ -222,7 +222,7 @@ void Nivel1::verificarColisiones() {
             if (goku->collidesWithItem(obstaculo, Qt::IntersectsItemShape)) {
                 disconnect(obstaculo, &Obstaculo::destroyed, this, nullptr);
 
-                int danio = (obstaculo->getTipo() == Obstaculo::NAVE) ? 2 : 1;
+                int danio = (obstaculo->getTipo() == Obstaculo::NAVE) ? 1 : 1;
                 goku->vida -= danio;
                 goku->actualizarVidasUI();
 
@@ -245,7 +245,6 @@ void Nivel1::aumentarPuntaje(int puntos) {
 
     if (puntaje >= 50) {
         mostrarMensajeFinal("You Win!", Qt::green, "Siguiente Nivel");
-        emit nivelCompletado();
         return;
     }
 

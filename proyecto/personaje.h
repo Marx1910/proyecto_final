@@ -15,32 +15,32 @@ public:
     explicit Personaje(QGraphicsItem *parent = nullptr);
     virtual ~Personaje();
 
-    // Métodos virtuales puros (deben ser implementados por clases derivadas)
     virtual void saltar() = 0;
     virtual void agacharse() = 0;
     virtual void levantarse() = 0;
     virtual void actualizar() = 0;
 
-    // Métodos comunes
     Estado estadoActual() const;
     bool estaEnSuelo() const;
 
+    // Nuevo setter/getter para offset de suelo
+    void setGroundOffset(int off) { groundOffset = off; }
+    int  getGroundOffset() const    { return groundOffset; }
+
 protected:
-    // Funciones de ayuda para física
     void aplicarGravedad();
     void verificarColisionSuelo();
 
-    // Estado del personaje
     Estado estado;
     bool enSuelo;
     bool agachado;
 
-    // Propiedades físicas
     qreal velocidadY;
     qreal gravedad;
     qreal fuerzaSalto;
 
-    // Temporizador para actualizaciones
+    int groundOffset;      // distancia desde bottom hasta el “suelo”
+
     QTimer *timerFisica;
 };
 

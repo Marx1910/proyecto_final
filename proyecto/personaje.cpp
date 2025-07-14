@@ -10,15 +10,13 @@ Personaje::Personaje(QGraphicsItem *parent)
     velocidadY(0),
     gravedad(0.5),
     fuerzaSalto(-12),
+    groundOffset(107),      // offset por defecto (Nivel1)
     timerFisica(new QTimer(this))
 {
     setFlag(QGraphicsItem::ItemIsFocusable);
     setFocus();
 
-    // Configurar temporizador de física
-    timerFisica = new QTimer(this);
     connect(timerFisica, &QTimer::timeout, this, [this](){
-        qDebug() << "Timer activo - Pos Y actual:" << this->y();
         this->actualizar();
     });
     timerFisica->start(16);
@@ -44,7 +42,7 @@ void Personaje::verificarColisionSuelo()
 {
     if (!scene()) return;
 
-    qreal posicionSuelo = scene()->sceneRect().bottom() - 107;
+    qreal posicionSuelo = scene()->sceneRect().bottom() - groundOffset;
     qreal personajeBottom = y() + boundingRect().height();
 
     if (personajeBottom >= posicionSuelo) {
